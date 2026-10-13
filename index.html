@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' https://cdn.discordapp.com data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <style>
+    /* Значения ниже - запасные. Реальные приходят из настроек (значок в трее -> Настройки). */
+    :root {
+      --idle-opacity: 0.45;
+      --speaking-opacity: 1;
+      --avatar-dim: 0.4;
+      --avatar-size: 40px;
+      --font-size: 12px;
+      --spacing: 4px;
+      --radius: 6px;
+      --speaking-color: #00ff62;
+      --text-color: #ffffff;
+      --muted-color: #ff9a9a;
+      --name-bg: rgba(0, 0, 0, 0.79);
+      --float: 4px;
+      --pad: 6px;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      background: transparent;
+      font-family: sans-serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    body.bottom { justify-content: flex-end; }
+    body.right #users, body.right #status { align-self: flex-end; }
+
+    #status {
+      display: none;
+      margin: 4px;
+      padding: 4px 8px;
+      border-radius: 2px;
+      background: var(--name-bg);
+      color: #ffb3b3;
+      font-size: 12px;
+      width: fit-content;
+    }
+
+    /* отступ внутри окна, чтобы рамка и подпрыгивание не обрезались по краю */
+    #users { display: flex; flex-direction: column; padding: var(--pad); }
+
+    /* режим перемещения: видна рамка окна, оверлей можно тащить мышью */
+    body.edit {
+      -webkit-app-region: drag;
+      background: rgba(90, 100, 140, 0.28);
+      outline: 2px dashed rgba(255, 255, 255, 0.7);
+      outline-offset: -2px;
+    }
+    #editHint {
+      display: none;
+      position: fixed;
+      left: 6px; right: 6px; bottom: 6px;
+      text-align: center;
+      font-size: 11px;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 3px 6px;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+    body.edit #editHint { display: block; }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: var(--spacing) 4px;
+      opacity: var(--idle-opacity);         /* молчащие */
+      transition: opacity 0.3s ease;
+    }
+    body.right .user { flex-direction: row-reverse; }
+    .user.speaking { opacity: var(--speaking-opacity); }   /* говорящие */
+
+    .avatar {
+      width: var(--avatar-size);
+      height: var(--avatar-size);
+      border-radius: var(--radius);
+      object-fit: cover;
+      filter: brightness(var(--avatar-dim));
+      transition: all 0.3s ease;
+    }
+
+    .speaking .avatar {
+      filter: brightness(1);
+      outline: 2px solid var(--speaking-color);
+      animation: float 2s ease-in-out infinite;
+    }
+
+    .name {
+      background: var(--name-bg);
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: var(--text-color);
+      font-size: var(--font-size);
+    }
+
+    .muted .name { color: var(--muted-color); }
+    .muted .name::after { content: " 🔇"; }
+    .deafened .name::after { content: " 🎧✖"; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(calc(-1 * var(--float))); }
+    }
+  </style>
+</head>
+<body>
+  <div id="status"></div>
+  <div id="users"></div>
+  <div id="editHint">Режим перемещения: тяните оверлей мышью. Рамка показывает границы окна.</div>
+  <script src="renderer.js"></script>
+</body>
+</html>

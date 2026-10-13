@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Оверлей: настройки</title>
+  <style>
+    body { margin: 0; padding: 16px 20px 24px; background: #1e1f22; color: #e3e5e8;
+           font-family: "Segoe UI", sans-serif; font-size: 13px; }
+    h1 { font-size: 16px; margin: 0 0 12px; }
+    h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: #949ba4;
+         margin: 20px 0 8px; border-bottom: 1px solid #35373c; padding-bottom: 4px; }
+    .row { display: grid; grid-template-columns: 1fr 170px 46px; align-items: center;
+           gap: 10px; padding: 4px 0; }
+    .row.simple { grid-template-columns: 1fr 170px; }
+    .row .val { text-align: right; color: #949ba4; font-variant-numeric: tabular-nums; }
+    input[type=range] { width: 100%; }
+    input[type=number], select { width: 100%; box-sizing: border-box; background: #2b2d31; color: inherit;
+           border: 1px solid #3f4147; border-radius: 4px; padding: 4px 6px; }
+    input[type=color] { width: 48px; height: 26px; border: none; background: none; padding: 0; }
+    .hint { color: #949ba4; font-size: 12px; margin: 2px 0 6px; }
+    .bar { display: flex; gap: 10px; margin-top: 22px; align-items: center; }
+    button { background: #4e5058; color: white; border: none; border-radius: 4px; padding: 7px 14px; cursor: pointer; }
+    button:hover { background: #5d6069; }
+    label.check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Настройки оверлея</h1>
+  <div class="hint">Изменения применяются сразу и сохраняются сами.</div>
+
+  <label class="check" style="margin-top:8px">
+    <input type="checkbox" id="edit"> Режим перемещения: показать рамку окна и двигать оверлей мышью
+  </label>
+  <label class="check" style="margin-top:6px">
+    <input type="checkbox" id="demo"> Показать тестовых участников (чтобы удобно подбирать вид)
+  </label>
+
+  <div id="form"></div>
+
+  <div class="bar">
+    <button id="reset">Сбросить всё</button>
+  </div>
+  <script src="settings.js"></script>
+</body>
+</html>
